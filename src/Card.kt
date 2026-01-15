@@ -1,22 +1,32 @@
 class Card {
-    var line1: MutableList<Any?> = MutableList(9) { null }
-    var line2: MutableList<Any?> = MutableList(9) { null }
-    var line3: MutableList<Any?> = MutableList(9) { null }
+    private val lines = Array(3) { MutableList<Int?>(9) { null } }
+    private val cells = List(9) { index ->
+        val start = if (index == 0) 1 else index * 10
+        val end = if (index == 8) 90 else index * 10 + 9
+        (start..end).toMutableList().apply { shuffle() }
+    }
 
-    private var listOfNumbers = (1..90).toMutableList().apply { shuffle() }
+    init {
+        fillAllLines()
+    }
 
-    fun fillLine(list: MutableList<Any?>) {
-        val positions = (0..8).shuffled().take(5)
-        for (pos in positions) {
-            val randomNum = listOfNumbers.removeAt(0)
-            list[pos] = randomNum
+    private fun fillAllLines() {
+        for (line in lines) {
+            val positions = (0..8).shuffled().take(5)
+            for (pos in positions) {
+                if (cells[pos].isNotEmpty()) {
+                    line[pos] = cells[pos].removeAt(0)
+                }
+            }
         }
     }
 
-    fun fillAllLines() {
-        fillLine(line1)
-        fillLine(line2)
-        fillLine(line3)
+    override fun toString(): String {
+        return lines.joinToString("\n") { line ->
+            line.joinToString(" | ") { cell ->
+                (cell?.toString() ?: "  ").padStart(2)
+            }
+        }
     }
 }
 
