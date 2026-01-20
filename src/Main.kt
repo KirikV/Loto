@@ -1,11 +1,36 @@
-fun main() {
-    val myTeam = createTeam()
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.runBlocking
 
-    println("\n Участники готовы!")
-    myTeam.forEach { player ->
-        println(player)
+fun main() = runBlocking {
+
+val team = createTeam()
+println("Игроки до замены")
+    println(team.toString())
+    val viewModel = GameVar1()
+    viewModel.startGame()
+    delay(3000)
+    println(GlobalStorage.firstNumber)
+    for(players in team) {
+        for (card in players.cards) {
+            for (line in card.lines) {
+                val index = line.indexOf(GlobalStorage.firstNumber)
+                if (index != -1) {
+                    line[index] = null
+                    println("Найдено число ${GlobalStorage.firstNumber}, заменил в карточке на null")
+                }
+
+            }
+        }
     }
+    println(team)
+    viewModel.clear()
+
+
 }
+
+val genNums = (1..90).shuffled().asFlow()
+
 
 fun createTeam(): List<Player> {
     println("--- Участники ---")

@@ -1,5 +1,5 @@
 class Card {
-    private val lines = Array(3) { MutableList<Int?>(9) { null } }
+    val lines = Array(3) { MutableList<Int?>(9) { null } }
     private val cells = List(9) { index ->
         val start = if (index == 0) 1 else index * 10
         val end = if (index == 8) 90 else index * 10 + 9
