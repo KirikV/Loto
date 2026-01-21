@@ -1,36 +1,35 @@
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-fun main() = runBlocking {
+fun main(): Unit = runBlocking {
+    val team = createTeam()
+    val scope = CoroutineScope(Dispatchers.Default)
 
-val team = createTeam()
-println("Игроки до замены")
-    println(team.toString())
-    val viewModel = GameVar1()
-    viewModel.startGame()
-    delay(3000)
-    println(GlobalStorage.firstNumber)
-    for(players in team) {
-        for (card in players.cards) {
-            for (line in card.lines) {
-                val index = line.indexOf(GlobalStorage.firstNumber)
-                if (index != -1) {
-                    line[index] = null
-                    println("Найдено число ${GlobalStorage.firstNumber}, заменил в карточке на null")
-                }
+    val gameVar = GameVar1(team)
+    sharedFlow.collect {
 
-            }
-        }
     }
-    println(team)
-    viewModel.clear()
 
-
+    scope.launch {
+        gameVar.startGame()
+    }.join()
 }
 
 val genNums = (1..90).shuffled().asFlow()
+val sharedFlow = MutableSharedFlow<Int>()
+val stateFlow = MutableStateFlow(0)
 
+enum class FlowVariant {
+    COLD,
+    SHARED,
+    STATE
+}
 
 fun createTeam(): List<Player> {
     println("--- Участники ---")

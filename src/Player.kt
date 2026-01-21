@@ -1,5 +1,13 @@
 class Player(var name: String, amount: Int) {
-    var cards: List<Card> = List(amount) { Card() }
+    private var cards: List<Card> = List(amount) { Card() }
+
+    fun handleNumber(number: Int) {
+        cards.forEach {
+            it.handleNumber(number)
+        }
+    }
+
+    fun showCards() = cards.forEach { println(it) }
 
     companion object {
         fun createFromConsole(fixedAmount: Int): Player {

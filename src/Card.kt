@@ -10,6 +10,17 @@ class Card {
         fillAllLines()
     }
 
+
+    fun handleNumber(number: Int) {
+        for (line in lines) {
+            val index = line.indexOf(number)
+            if (index != -1) {
+                line[index] = null
+                println("Найдено число ${number}, заменил в карточке на null")
+            }
+        }
+    }
+
     private fun fillAllLines() {
         for (line in lines) {
             val positions = (0..8).shuffled().take(5)
@@ -30,4 +41,7 @@ class Card {
     }
 }
 
-
+interface Cell {
+    object Empty: Cell
+    class Number(val value: Int, val isCrossed: Boolean): Cell
+}
