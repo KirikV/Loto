@@ -2,29 +2,33 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.runBlocking
 
-fun main() = runBlocking {
+fun main() {
 
-val team = createTeam()
-println("Игроки до замены")
-    println(team.toString())
-    val viewModel = GameVar1()
-    viewModel.startGame()
-    delay(3000)
-    println(GlobalStorage.firstNumber)
-    for(players in team) {
-        for (card in players.cards) {
-            for (line in card.lines) {
-                val index = line.indexOf(GlobalStorage.firstNumber)
-                if (index != -1) {
-                    line[index] = null
-                    println("Найдено число ${GlobalStorage.firstNumber}, заменил в карточке на null")
-                }
+    val c = Card()
+    println(c.toString())
 
-            }
-        }
-    }
-    println(team)
-    viewModel.clear()
+//
+//val team = createTeam()
+//println("Игроки до замены")
+//    println(team.toString())
+//    val viewModel = GameVar1()
+//    viewModel.startGame()
+//    delay(3000)
+//    println(GlobalStorage.firstNumber)
+//    for(players in team) {
+//        for (card in players.cards) {
+//            for (line in card.lines) {
+//                val index = line.indexOf(GlobalStorage.firstNumber)
+//                if (index != -1) {
+//                    line[index] = null
+//                    println("Найдено число ${GlobalStorage.firstNumber}, заменил в карточке на null")
+//                }
+//
+//            }
+//        }
+//    }
+//    println(team)
+//    viewModel.clear()
 
 
 }

@@ -26,4 +26,7 @@ class Player(var name: String, amount: Int) {
         return "Игрок: $name\nЕго карточки:\n" +
                  cards.joinToString("\n" + "-".repeat(43) + "\n")
     }
+
+
+
 }
