@@ -1,5 +1,28 @@
 class Player(var name: String, amount: Int) {
-    var cards: List<Card> = List(amount) { Card() }
+    private var cards: List<Card> = List(amount) { Card() }
+
+    fun handleNumber(number: Int) {
+        cards.forEach {
+            it.handleNumber(number)
+        }
+    }
+
+    fun checkWin(): Boolean {
+        for (card in cards) {
+            var completedCard = false
+            for (line in card.lines) {
+                for (cell in line) {
+                    if (cell is Card.Cell.Number && !cell.isCrossed) {
+                        completedCard = true
+                        break
+                    }
+                }
+                if (completedCard) break
+            }
+            if (!completedCard) return true
+        }
+        return false
+    }
 
     companion object {
         fun createFromConsole(fixedAmount: Int): Player {
@@ -24,9 +47,6 @@ class Player(var name: String, amount: Int) {
 
     override fun toString(): String {
         return "Игрок: $name\nЕго карточки:\n" +
-                 cards.joinToString("\n" + "-".repeat(43) + "\n")
+                cards.joinToString("\n" + "-".repeat(43) + "\n")
     }
-
-
-
 }
